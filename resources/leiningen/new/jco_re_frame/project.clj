@@ -9,6 +9,9 @@
                  [org.clojure/clojurescript "1.10.238" :scope "provided"]
                  [reagent "0.8.0"]
                  [reagent-utils "0.3.1"]
+                 {{#re-frame?}}
+                 [re-frame "0.10.5"]
+                 {{/re-frame?}}
                  [ring "1.6.3"]
                  [ring-server "0.5.0"]
                  [ring/ring-defaults "0.3.1"]
@@ -21,21 +24,21 @@
             [lein-environ "1.1.0"]]
   :ring {:handler      {{project-ns}}.handler/app
          :uberwar-name "{{name}}.war"}
-  :min-lein-version "2.5.0"
+  :min-lein-version "2.5.3"
   :uberjar-name "{{name}}.jar"
   :main {{project-ns}}.server
-  {{#if-java-version-9?}}
+  {{#java-version-9?}}
   :jvm-opts ["--add-modules" "java.xml.bind"]
-  {{/if-java-version-9?}}
+  {{/java-version-9?}}
   :clean-targets ^{:protect false}
   [:target-path
    [:cljsbuild :builds :app :compiler :output-dir]
    [:cljsbuild :builds :app :compiler :output-to]]
 
   :source-paths ["src/clj" "src/cljc"]
-  {{#if-spec?}}
+  {{#spec?}}
   :test-paths ["spec/clj"]
-  {{/if-spec?}}
+  {{/spec?}}
   :resource-paths ["resources" "target/cljsbuild"]
 
   :minify-assets
@@ -46,23 +49,24 @@
   {:builds {:min
             {:source-paths ["src/cljs" "src/cljc" "env/prod/cljs"]
              :compiler
-             {:output-to     "target/cljsbuild/public/js/app.js"
-              :output-dir    "target/cljsbuild/public/js"
-              :source-map    "target/cljsbuild/public/js/app.js.map"
-              :optimizations :advanced
-              :pretty-print  false}}
+             {:output-to       "target/cljsbuild/public/js/app.js"
+              :output-dir      "target/cljsbuild/public/js"
+              :source-map      "target/cljsbuild/public/js/app.js.map"
+              :optimizations   :advanced
+              :closure-defines {goog.DEBUG false}
+              :pretty-print    false}}
             :app
             {:source-paths ["src/cljs" "src/cljc" "env/dev/cljs"]
              :figwheel     {:on-jsload "{{project-ns}}.core/mount-root"}
              :compiler
-             {:main          "{{name}}.dev"
-              :asset-path    "/js/out"
-              :output-to     "target/cljsbuild/public/js/app.js"
-              :output-dir    "target/cljsbuild/public/js/out"
-              :source-map    true
-              :optimizations :none
-              :pretty-print  true}}
-            {{#if-test?}}
+             {:main                 "{{name}}.dev"
+              :asset-path           "/js/out"
+              :output-to            "target/cljsbuild/public/js/app.js"
+              :output-dir           "target/cljsbuild/public/js/out"
+              :source-map           true
+              :source-map-timestamp true
+              :optimizations        :none
+              :pretty-print         true}}{{#test?}}
             :test
             {:source-paths ["src/cljs" "src/cljc" "test/cljs"]
              :compiler {:main          {{project-ns}}.doo-runner
@@ -70,40 +74,40 @@
                         :output-to     "target/test.js"
                         :output-dir    "target/cljstest/public/js/out"
                         :optimizations :whitespace
-                        :pretty-print  true}}{{/if-test?}}{{#if-spec?}}
+                        :pretty-print  true}}{{/test?}}{{#spec?}}
             :test
             {:source-paths ["src/cljs" "src/cljc" "spec/cljs"]
              :compiler     {:output-to     "target/test.js"
                             :optimizations :whitespace
-                            :pretty-print  true}}{{/if-spec?}}}{{#if-spec?}}
-   :test-commands {"unit" ["phantomjs" "runners/speclj" "target/test.js"]}{{/if-spec?}}}
-  {{#if-test?}}
+                            :pretty-print  true}}{{/spec?}}}{{#spec?}}
+   :test-commands {"unit" ["phantomjs" "runners/speclj" "target/test.js"]}{{/spec?}}}
+  {{#test?}}
   :doo {:build "test"
         :alias {:default [:chrome]}}
-  {{/if-test?}}
-  {{#if-spec?}}
+  {{/test?}}
+  {{#spec?}}
   :doo {:build "test"}
-  {{/if-spec?}}
+  {{/spec?}}
 
   :figwheel
   {:http-server-root "public"
    :server-port      3449
    :nrepl-port       7002
    :nrepl-middleware ["cemerick.piggieback/wrap-cljs-repl"
-                      {{#if-cider?}}
+                      {{#cider?}}
                       "cider.nrepl/cider-middleware"
-                      "refactor-nrepl.middleware/wrap-refactor"{{/if-cider?}}]
+                      "refactor-nrepl.middleware/wrap-refactor"{{/cider?}}]
    :css-dirs         ["resources/public/css"]
    :ring-handler     {{project-ns}}.handler/app}
 
-  {{#if-less?}}
+  {{#less?}}
   :less {:source-paths ["src/less"]
          :target-path  "resources/public/css"}
-  {{/if-less?}}
-  {{#if-sass?}}
+  {{/less?}}
+  {{#sass?}}
   :sass {:source-paths ["src/sass"]
          :target-path  "resources/public/css"}
-  {{/if-sass?}}
+  {{/sass?}}
 
   :profiles {:dev {:repl-options {:init-ns {{project-ns}}.repl
                                   :nrepl-middleware [cemerick.piggieback/wrap-cljs-repl]}
@@ -115,31 +119,31 @@
                                   [figwheel-sidecar "0.5.15"]
                                   [org.clojure/tools.nrepl "0.2.13"]
                                   [com.cemerick/piggieback "0.2.2"]
-                                  {{#if-spec?}}
+                                  {{#spec?}}
                                   [speclj "3.3.2"]
-                                  {{/if-spec?}}
-                                  [pjstadig/humane-test-output "0.8.3"]{{#if-less?}}
+                                  {{/spec?}}
+                                  [pjstadig/humane-test-output "0.8.3"]{{#less?}}
                                   ;; To silence warnings from less4clj dependecies about missing logger implementation
-                                  [org.slf4j/slf4j-nop "1.7.25"]{{/if-less?}}{{#if-sass?}}
+                                  [org.slf4j/slf4j-nop "1.7.25"]{{/less?}}{{#sass?}}
                                   ;; To silence warnings from sass4clj dependecies about missing logger implementation
-                                  [org.slf4j/slf4j-nop "1.7.25"]{{/if-sass?}}]
+                                  [org.slf4j/slf4j-nop "1.7.25"]{{/sass?}}]
 
                    :source-paths ["env/dev/clj"]
                    :plugins [[lein-figwheel "0.5.15"]
-                             {{#if-test?}}
+                             {{#test?}}
                              [lein-doo "0.1.10"]
-                             {{/if-test?}}
-                             {{#if-spec?}}
+                             {{/test?}}
+                             {{#spec?}}
                              [speclj "3.3.2"]
-                             {{/if-spec?}}
-                             {{#if-cider?}}
+                             {{/spec?}}
+                             {{#cider?}}
                              [cider/cider-nrepl "0.15.1"]
                              [org.clojure/tools.namespace "0.3.0-alpha4"
                               :exclusions [org.clojure/tools.reader]]
                              [refactor-nrepl "2.3.1"
-                              :exclusions [org.clojure/clojure]]{{/if-cider?}}{{#if-less?}}
-                             [deraen/lein-less4j "0.6.2"]{{/if-less?}}{{#if-sass?}}
-                             [deraen/lein-sass4clj "0.3.1"]{{/if-sass?}}]
+                              :exclusions [org.clojure/clojure]]{{/cider?}}{{#less?}}
+                             [deraen/lein-less4j "0.6.2"]{{/less?}}{{#sass?}}
+                             [deraen/lein-sass4clj "0.3.1"]{{/sass?}}]
 
                    :injections [(require 'pjstadig.humane-test-output)
                                 (pjstadig.humane-test-output/activate!)]

@@ -6,7 +6,7 @@
 
 (def render (renderer "jco-re-frame"))
 
-(def valid-opts ["+cider" "+less" "+sass" "+spec" "+test"])
+(def valid-opts ["+cider" "+less" "+sass" "+spec" "+test" "+re-frame"])
 
 (defn cider? [opts]
   (some #{"+cider"} opts))
@@ -22,6 +22,9 @@
 
 (defn test? [opts]
   (some #{"+test"} opts))
+
+(defn re-frame? [opts]
+  (some #{"+re-frame"} opts))
 
 (defn java-version>=9? []
   (not (clojure.string/starts-with?
@@ -43,17 +46,18 @@
 
 (defn- template-data
   [name opts]
-  {:name               name
-   :project-ns         (sanitize-ns name)
-   :sanitized          (name-to-path name)
-   :if-cider?          (fn [x] (if (cider? opts) x ""))
-   :if-less?           (fn [x] (if (less? opts) x ""))
-   :if-sass?           (fn [x] (if (sass? opts) x ""))
-   :if-less-or-sass?   (fn [x] (if (or (less? opts) (sass? opts)) x ""))
-   :if-spec?           (fn [x] (if (spec? opts) x ""))
-   :if-test?           (fn [x] (if (test? opts) x ""))
-   :if-spec-or-test?   (fn [x] (if (or (spec? opts) (test? opts)) x ""))
-   :if-java-version-9? (fn [x] (if (java-version>=9?) x ""))})
+  {:name            name
+   :project-ns      (sanitize-ns name)
+   :sanitized       (name-to-path name)
+   :cider?          (cider? opts)
+   :less?           (less? opts)
+   :sass?           (sass? opts)
+   :less-or-sass?   (or (less? opts) (sass? opts))
+   :spec?           (spec? opts)
+   :test?           (test? opts)
+   :spec-or-test?   (or (spec? opts) (test? opts))
+   :re-frame?       (re-frame? opts)
+   :java-version-9? (java-version>=9?)})
 
 (defn- template-files [data opts]
   (let [files [["project.clj" (render "project.clj" data)]
@@ -92,6 +96,15 @@
                 (conj files
                       ["src/sass/site.scss" (render "src/sass/site.scss" data)]
                       ["src/sass/_profile.scss" (render "src/sass/_profile.scss" data)])
+                files)
+        files (if (re-frame? opts)
+                (conj files
+                      ["src/cljs/{{sanitized}}/config.cljs" (render "src/cljs/reagent/config.cljs" data)]
+                      ["src/cljs/{{sanitized}}/db.cljs" (render "src/cljs/reagent/db.cljs" data)]
+                      ["src/cljs/{{sanitized}}/events.cljs" (render "src/cljs/reagent/events.cljs" data)]
+                      ["src/cljs/{{sanitized}}/routes.cljs" (render "src/cljs/reagent/routes.cljs" data)]
+                      ["src/cljs/{{sanitized}}/subs.cljs" (render "src/cljs/reagent/subs.cljs" data)]
+                      ["src/cljs/{{sanitized}}/views.cljs" (render "src/cljs/reagent/views.cljs" data)])
                 files)]
     files))
 

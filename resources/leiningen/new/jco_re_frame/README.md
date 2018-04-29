@@ -26,23 +26,23 @@ lein do clean, run
 The application will now be available at
 [http://localhost:3000](http://localhost:3000).
 
-{{#if-less-or-sass?}}
+{{#less-or-sass?}}
 ### Style Compilation
-{{/if-less-or-sass?}}
-{{#if-less?}}
+{{/less-or-sass?}}
+{{#less?}}
 To compile [less](https://github.com/Deraen/less4clj) sources and then watch for
 changes and recompile until interrupted, run:
 ```
 lein less4j auto
 ```
-{{/if-less?}}
-{{#if-sass?}}
+{{/less?}}
+{{#sass?}}
 To compile [sass](https://github.com/Deraen/sass4clj) sources and then watch for
 changes and recompile until interrupted, run:
 ```
 lein sass4clj auto
 ```
-{{/if-sass?}}
+{{/sass?}}
 
 ### Optional Development Tools
 
@@ -61,29 +61,29 @@ and stopped by running:
 (stop-server)
 ```
 
-{{#if-test-or-spec?}}
+{{#test-or-spec?}}
 ## Running the Tests
-{{/if-test-or-spec?}}
-{{#if-test?}}
+{{/test-or-spec?}}
+{{#test?}}
 To run
 [cljs.test](https://github.com/clojure/clojurescript/blob/master/src/main/cljs/cljs/test.cljs)
 tests, use:
 ```
 lein doo
 ```
-{{/if-test?}}
-{{#if-spec?}}
+{{/test?}}
+{{#spec?}}
 
 To run [speclj](https://github.com/slagyr/speclj) tests, use:
 ```
 lein cljsbuild test
 ```
-{{/if-spec?}}
-{{#if-test-or-spec?}}
+{{/spec?}}
+{{#test-or-spec?}}
 
 For installation instructions of PhantomJS, please see
 [this](http://phantomjs.org/download.html).
-{{/if-test-or-spec?}}
+{{/test-or-spec?}}
 
 ## Building for Release
 

@@ -1,6 +1,6 @@
 (ns {{project-ns}}.core-test
   (:require [cljs.test :refer-macros [is are deftest testing use-fixtures]]
-            [reagent.core :as reagent :refer [atom]]
+            [reagent.core :as r :refer [atom]]
             [{{project-ns}}.core :as rc]))
 
 (def ^:private is-client (not (nil? (try (.-document js/window)
@@ -16,9 +16,9 @@
 (defn with-mounted-component [comp f]
   (when is-client
     (let [div (add-test-div "_testreagent")]
-      (let [comp (reagent/render-component comp div #(f comp div))]
-        (reagent/unmount-component-at-node div)
-        (reagent/flush)
+      (let [comp (r/render-component comp div #(f comp div))]
+        (r/unmount-component-at-node div)
+        (r/flush)
         (.removeChild (.-body js/document) div)))))
 
 (defn found-in [re div]
