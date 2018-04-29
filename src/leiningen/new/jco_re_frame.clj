@@ -49,12 +49,51 @@
    :if-cider?          (fn [x] (if (cider? opts) x ""))
    :if-less?           (fn [x] (if (less? opts) x ""))
    :if-sass?           (fn [x] (if (sass? opts) x ""))
+   :if-less-or-sass?   (fn [x] (if (or (less? opts) (sass? opts)) x ""))
    :if-spec?           (fn [x] (if (spec? opts) x ""))
    :if-test?           (fn [x] (if (test? opts) x ""))
+   :if-spec-or-test?   (fn [x] (if (or (spec? opts) (test? opts)) x ""))
    :if-java-version-9? (fn [x] (if (java-version>=9?) x ""))})
 
-(defn- template-files [data]
-  ["project.clj" (render "project.clj" data)])
+(defn- template-files [data opts]
+  (let [files [["project.clj" (render "project.clj" data)]
+               ["src/clj/{{sanitized}}/handler.clj" (render "src/clj/reagent/handler.clj" data)]
+               ["src/clj/{{sanitized}}/server.clj" (render "src/clj/reagent/server.clj" data)]
+               ["env/prod/clj/{{sanitized}}/middleware.clj" (render "env/prod/clj/reagent/middleware.clj" data)]
+               ["env/dev/clj/{{sanitized}}/middleware.clj" (render "env/dev/clj/reagent/middleware.clj" data)]
+               ["env/dev/clj/{{sanitized}}/repl.clj" (render "env/dev/clj/reagent/repl.clj" data)]
+               ["src/cljs/{{sanitized}}/core.cljs" (render "src/cljs/reagent/core.cljs" data)]
+               ["src/cljc/{{sanitized}}/util.cljc" (render "src/cljc/reagent/util.cljc" data)]
+               ["env/dev/cljs/{{sanitized}}/dev.cljs" (render "env/dev/cljs/reagent/dev.cljs" data)]
+               ["env/prod/cljs/{{sanitized}}/prod.cljs" (render "env/prod/cljs/reagent/prod.cljs" data)]
+               ["LICENSE" (render "LICENSE" data)]
+               ["README.md" (render "README.md" data)]
+               [".gitignore" (render "gitignore" data)]]
+        files (if (test? opts)
+                (conj files
+                      ["test/cljs/{{sanitized}}/core_test.cljs" (render "test/cljs/reagent/core_test.cljs" data)]
+                      ["test/cljs/{{sanitized}}/doo_runner.cljs" (render "runners/doo_runner.cljs" data)])
+                files)
+        files (if (spec? opts)
+                (conj files
+                      ["spec/cljs/{{sanitized}}/core_test.cljs" (render "spec/cljs/reagent/core_spec.cljs" data)]
+                      ["spec/vendor/console-polyfill.js" (render "vendor/console-polyfill.js" data)]
+                      ["spec/vendor/es5-sham.js" (render "vendor/es5-sham.js" data)]
+                      ["spec/vendor/es5-shim.js" (render "vendor/es5-shim.js" data)]
+                      ["runners/speclj" (render "runners/speclj" data)])
+                files)
+        files (if (less? opts)
+                (conj files
+                      ["src/less/site.main.less" (render "src/less/site.main.less" data)]
+                      ["src/less/profile.less" (render "src/less/profile.less" data)]
+                      )
+                files)
+        files (if (sass? opts)
+                (conj files
+                      ["src/sass/site.scss" (render "src/sass/site.scss" data)]
+                      ["src/sass/_profile.scss" (render "src/sass/_profile.scss" data)])
+                files)]
+    files))
 
 (defn jco-re-frame
   "Leiningen template to generate re-frame projects."
@@ -63,4 +102,4 @@
     (println error)
     (let [data (template-data name opts)]
       (main/info "Generating fresh 'lein new' re-frame (jco style) project.")
-      (->files data (template-files data)))))
+      (apply ->files data (template-files data opts)))))

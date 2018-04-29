@@ -1,6 +1,6 @@
 # jco-re-frame-template
 
-A Leiningen template for FIXME.
+A Leiningen template for projects using Reagent and re-frame.
 
 ## Usage
 
