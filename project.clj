@@ -1,5 +1,5 @@
 (defproject jco-re-frame/lein-template "0.1.0"
-  :description "FIXME: write description"
+  :description "A Leiningen template for projects using Reagent and re-frame."
   :url "http://example.com/FIXME"
   :license {:name "Eclipse Public License"
             :url "http://www.eclipse.org/legal/epl-v10.html"}

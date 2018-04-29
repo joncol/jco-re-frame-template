@@ -4,7 +4,9 @@ A Leiningen template for projects using Reagent and re-frame.
 
 ## Usage
 
-FIXME
+`lein new jco-re-frame <profiles>`
+
+Supported profiles: `+cider +less +sass +spec +test +re-frame`.
 
 ## License
 
