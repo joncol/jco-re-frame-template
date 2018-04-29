@@ -8,11 +8,11 @@
    db/default-db))
 
 (rf/reg-event-db
- ::set-active-panel
- (fn [db [_ active-panel]]
-   (assoc db :active-panel active-panel)))
+  ::set-active-panel
+  (fn [db [_ active-panel]]
+    (assoc db :active-panel active-panel)))
 
 (rf/reg-event-db
- ::set-name
- (fn [db [_ name]]
-   (assoc db :name name)))
+  ::set-name
+  (fn [db [_ name]]
+    (assoc db :name name)))
