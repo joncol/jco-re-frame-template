@@ -1,9 +1,9 @@
 (ns {{project-ns}}.handler
   (:require [compojure.core :refer [GET defroutes]]
             [compojure.route :refer [not-found resources]]
+            [config.core :refer [env]]
             [hiccup.page :refer [include-js include-css html5]]
-            [{{name}}.middleware :refer [wrap-middleware]]
-            [config.core :refer [env]]))
+            [{{name}}.middleware :refer [wrap-middleware]]))
 
 (def mount-target
   [:div#app
