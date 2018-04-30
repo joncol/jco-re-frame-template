@@ -3,7 +3,8 @@
   :url "http://example.com/FIXME"
   :license {:name "Eclipse Public License"
             :url "http://www.eclipse.org/legal/epl-v10.html"}
-  :dependencies [[compojure "1.6.1"]
+  :dependencies [[camel-snake-kebab "0.4.0"]
+                 [compojure "1.6.1"]
                  [hiccup "1.0.5"]
                  [org.clojure/clojure "1.9.0"]
                  [org.clojure/clojurescript "1.10.238" :scope "provided"]
@@ -15,6 +16,7 @@
                  [ring "1.6.3"]
                  [ring-server "0.5.0"]
                  [ring/ring-defaults "0.3.1"]
+                 [ring/ring-json "0.4.0"]
                  [secretary "1.2.3"]
                  [venantius/accountant "0.2.4"
                   :exclusions [org.clojure/tools.reader]]
