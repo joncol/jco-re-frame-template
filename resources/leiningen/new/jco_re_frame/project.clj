@@ -85,7 +85,6 @@
   {{#spec?}}
   :doo {:build "test"}
   {{/spec?}}
-
   :figwheel
   {:http-server-root "public"
    :server-port      3449
@@ -96,16 +95,13 @@
                       "refactor-nrepl.middleware/wrap-refactor"{{/cider?}}]
    :css-dirs         ["resources/public/css"]
    :ring-handler     {{project-ns}}.handler/app}
-
   {{#sass?}}
   :sass {:src              "src/sass"
          :output-directory "resources/public/css"}
   {{/sass?}}
-
   :profiles {:dev {:repl-options {:init-ns {{project-ns}}.repl
                                   :nrepl-middleware
                                   [cemerick.piggieback/wrap-cljs-repl]}
-
                    :dependencies [[binaryage/devtools "0.9.10"]
                                   [ring/ring-mock "0.3.2"]
                                   [ring/ring-devel "1.6.3"]
@@ -118,14 +114,9 @@
                                   {{/spec?}}
                                   [pjstadig/humane-test-output "0.8.3"]]
                    :source-paths ["env/dev/clj"]
-                   :plugins [[lein-figwheel "0.5.15"]
-                             {{#test?}}
-                             [lein-doo "0.1.10"]
-                             {{/test?}}
-                             {{#spec?}}
-                             [speclj "3.3.2"]
-                             {{/spec?}}
-                             {{#cider?}}
+                   :plugins [[lein-figwheel "0.5.15"]{{#test?}}
+                             [lein-doo "0.1.10"]{{/test?}}{{#spec?}}
+                             [speclj "3.3.2"]{{/spec?}}{{#cider?}}
                              [cider/cider-nrepl "0.15.1"]
                              [org.clojure/tools.namespace "0.3.0-alpha4"
                               :exclusions [org.clojure/tools.reader]]
