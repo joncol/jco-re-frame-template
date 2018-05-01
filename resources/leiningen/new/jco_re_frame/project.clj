@@ -136,9 +136,10 @@
                                 (pjstadig.humane-test-output/activate!)]
                    :env {:dev true}}
              :uberjar {:hooks [leiningen.sass
-                               minify-assets.plugin/hooks]
+                               minify-assets.plugin/hooks
+                               leiningen.cljsbuild]
                        :source-paths ["env/prod/clj"]
-                       :prep-tasks ["compile" ["cljsbuild" "once" "min"]]
+                       :prep-tasks ["compile"]
                        :env {:production true}
                        :aot :all
                        :omit-source true}})
