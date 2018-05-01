@@ -8,6 +8,7 @@
                  [hiccup "1.0.5"]
                  [org.clojure/clojure "1.9.0"]
                  [org.clojure/clojurescript "1.10.238" :scope "provided"]
+                 [org.clojure/data.codec "0.1.1"]
                  [reagent "0.8.0"]
                  [reagent-utils "0.3.1"]
                  {{#re-frame?}}
