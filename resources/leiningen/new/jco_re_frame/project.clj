@@ -22,7 +22,7 @@
                  [venantius/accountant "0.2.4"
                   :exclusions [org.clojure/tools.reader]]
                  [yogthos/config "1.1.1"]]
-  :plugins [[lein-asset-minifier "0.2.7" :exclusions [org.clojure/clojure]]
+  :plugins [[lein-asset-minifier "0.4.4" :exclusions [org.clojure/clojure]]
             [lein-cljsbuild "1.1.7"]
             [lein-environ "1.1.0"]]
   :ring {:handler      {{project-ns}}.handler/app
@@ -45,8 +45,9 @@
   :resource-paths ["resources" "target/cljsbuild"]
 
   :minify-assets
-  {:assets
-   {"resources/public/css/site.min.css" "resources/public/css/site.css"}}
+  [[:css
+    {:source "resources/public/css/site.css"
+     :target "resources/public/css/site.min.css"}]]
 
   :cljsbuild
   {:builds {:min
