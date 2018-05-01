@@ -6,7 +6,7 @@ A Leiningen template for projects using Reagent and re-frame.
 
 `lein new jco-re-frame <profiles>`
 
-Supported profiles: `+cider +less +sass +spec +test +re-frame`.
+Supported profiles: `+cider +sass +spec +test +re-frame`.
 
 ## License
 

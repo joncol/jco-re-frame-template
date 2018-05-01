@@ -32,28 +32,23 @@
   :jvm-opts ["--add-modules" "java.xml.bind"]
   {{/java-version-9?}}
   :clean-targets ^{:protect false}
-  [:target-path
-   [:cljsbuild :builds :app :compiler :output-dir]
-   [:cljsbuild :builds :app :compiler :output-to]]
-
+  ["resources/public/css/site.css"
+   "resources/public/css/site.css.map"
+   "resources/public/css/site.min.css"
   :source-paths ["src/clj" "src/cljc"]
   {{#spec?}}
   :test-paths ["spec/clj"]
   {{/spec?}}
   :resource-paths ["resources" "target/cljsbuild"]
-
   :minify-assets
   [[:css
     {:source "resources/public/css/site.css"
      :target "resources/public/css/site.min.css"}]]
-
   :cljsbuild
   {:builds {:min
             {:source-paths ["src/cljs" "src/cljc" "env/prod/cljs"]
              :compiler
              {:output-to       "target/cljsbuild/public/js/app.js"
-              :output-dir      "target/cljsbuild/public/js"
-              :source-map      "target/cljsbuild/public/js/app.js.map"
               :optimizations   :advanced
               :closure-defines {goog.DEBUG false}
               :pretty-print    false}}
@@ -102,17 +97,14 @@
    :css-dirs         ["resources/public/css"]
    :ring-handler     {{project-ns}}.handler/app}
 
-  {{#less?}}
-  :less {:source-paths ["src/less"]
-         :target-path  "resources/public/css"}
-  {{/less?}}
   {{#sass?}}
-  :sass {:source-paths ["src/sass"]
-         :target-path  "resources/public/css"}
+  :sass {:src              "src/sass"
+         :output-directory "resources/public/css"}
   {{/sass?}}
 
   :profiles {:dev {:repl-options {:init-ns {{project-ns}}.repl
-                                  :nrepl-middleware [cemerick.piggieback/wrap-cljs-repl]}
+                                  :nrepl-middleware
+                                  [cemerick.piggieback/wrap-cljs-repl]}
 
                    :dependencies [[binaryage/devtools "0.9.10"]
                                   [ring/ring-mock "0.3.2"]
@@ -124,12 +116,7 @@
                                   {{#spec?}}
                                   [speclj "3.3.2"]
                                   {{/spec?}}
-                                  [pjstadig/humane-test-output "0.8.3"]{{#less?}}
-                                  ;; To silence warnings from less4clj dependecies about missing logger implementation
-                                  [org.slf4j/slf4j-nop "1.7.25"]{{/less?}}{{#sass?}}
-                                  ;; To silence warnings from sass4clj dependecies about missing logger implementation
-                                  [org.slf4j/slf4j-nop "1.7.25"]{{/sass?}}]
-
+                                  [pjstadig/humane-test-output "0.8.3"]]
                    :source-paths ["env/dev/clj"]
                    :plugins [[lein-figwheel "0.5.15"]
                              {{#test?}}
@@ -143,16 +130,13 @@
                              [org.clojure/tools.namespace "0.3.0-alpha4"
                               :exclusions [org.clojure/tools.reader]]
                              [refactor-nrepl "2.3.1"
-                              :exclusions [org.clojure/clojure]]{{/cider?}}{{#less?}}
-                             [deraen/lein-less4j "0.6.2"]{{/less?}}{{#sass?}}
-                             [deraen/lein-sass4clj "0.3.1"]{{/sass?}}]
-
+                              :exclusions [org.clojure/clojure]]{{/cider?}}{{#sass?}}
+                             [deraen/lein-sass "0.5.0"]{{/sass?}}]
                    :injections [(require 'pjstadig.humane-test-output)
                                 (pjstadig.humane-test-output/activate!)]
-
                    :env {:dev true}}
-
-             :uberjar {:hooks [minify-assets.plugin/hooks]
+             :uberjar {:hooks [leiningen.sass
+                               minify-assets.plugin/hooks]
                        :source-paths ["env/prod/clj"]
                        :prep-tasks ["compile" ["cljsbuild" "once" "min"]]
                        :env {:production true}
