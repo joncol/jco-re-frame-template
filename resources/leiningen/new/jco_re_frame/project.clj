@@ -25,8 +25,6 @@
   :plugins [[lein-asset-minifier "0.4.4" :exclusions [org.clojure/clojure]]
             [lein-cljsbuild "1.1.7"]
             [lein-environ "1.1.0"]]
-  :ring {:handler      {{project-ns}}.handler/app
-         :uberwar-name "{{name}}.war"}
   :min-lein-version "2.5.3"
   :uberjar-name "{{name}}.jar"
   :main {{project-ns}}.server
