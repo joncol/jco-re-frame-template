@@ -115,5 +115,5 @@
   (if-let [error (validate-opts opts)]
     (println error)
     (let [data (template-data name opts)]
-      (main/info "Generating fresh 'lein new' re-frame (jco style) project.")
+      (main/info "Generating fresh 'lein new' Reagent/re-frame (jco style) project.")
       (apply ->files data (template-files data opts)))))
