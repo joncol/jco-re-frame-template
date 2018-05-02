@@ -5,6 +5,8 @@ log follows the conventions of [keepachangelog.com](http://keepachangelog.com/).
 
 ## [Unreleased]
 ### Changed
+- Make deployments work.
+- Add `clojure.tools.logging` and `log4j`.
 - Add `wrap-json-response` and `wrap-json-body` middlewares.
 - Add `camel-snake-kebab` library.
 - Create this changelog.
