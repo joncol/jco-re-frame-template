@@ -72,7 +72,8 @@
                ["env/prod/cljs/{{sanitized}}/prod.cljs" (render "env/prod/cljs/reagent/prod.cljs" data)]
                ["LICENSE" (render "LICENSE" data)]
                ["README.md" (render "README.md" data)]
-               [".gitignore" (render "gitignore" data)]]
+               [".gitignore" (render "gitignore" data)]
+               ["resources/log4j.properties" (render "resources/log4j.properties" data)]]
         files (if (test? opts)
                 (conj files
                       ["test/cljs/{{sanitized}}/core_test.cljs" (render "test/cljs/reagent/core_test.cljs" data)]

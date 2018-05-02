@@ -115,6 +115,7 @@
                                   [speclj "3.3.2"]
                                   {{/spec?}}
                                   [pjstadig/humane-test-output "0.8.3"]]
+                   :jvm-opts ["-Dloglevel=ALL"]
                    :source-paths ["env/dev/clj"]
                    :plugins [[lein-figwheel "0.5.15"]{{#test?}}
                              [lein-doo "0.1.10"]{{/test?}}{{#spec?}}
@@ -128,6 +129,7 @@
                    :injections [(require 'pjstadig.humane-test-output)
                                 (pjstadig.humane-test-output/activate!)]
                    :env {:dev true}}
+             :test {:jvm-opts ["-Dloglevel=OFF"]}
              :uberjar {:hooks [leiningen.sass
                                minify-assets.plugin/hooks
                                leiningen.cljsbuild]
