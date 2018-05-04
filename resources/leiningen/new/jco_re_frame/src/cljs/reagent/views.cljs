@@ -9,6 +9,7 @@
             :value @name
             :on-change #(rf/dispatch [::events/set-name
                                       (-> % .-target .-value)])}]])
+
 (defn home-panel []
   (let [name (rf/subscribe [::subs/name])]
     [:div (str "Hello from " @name ". This is the Home Page.")
