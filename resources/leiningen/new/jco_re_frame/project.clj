@@ -33,10 +33,18 @@
   {{#java-version-9?}}
   :jvm-opts ["--add-modules" "java.xml.bind"]
   {{/java-version-9?}}
+
+  :source-paths ["src/clj" "src/cljc"]
+  :resource-paths ["resources" "target/cljsbuild"]
+
   :clean-targets ^{:protect false}
   ["resources/public/css/site.css"
    "resources/public/css/site.css.map"
    "resources/public/css/site.min.css"
+   :target-path
+   [:cljsbuild :builds :app :compiler :output-dir]
+   [:cljsbuild :builds :app :compiler :output-to]]
+
   :source-paths ["src/clj" "src/cljc"]
   {{#spec?}}
   :test-paths ["spec/clj"]
@@ -125,7 +133,7 @@
                               :exclusions [org.clojure/tools.reader]]
                              [refactor-nrepl "2.3.1"
                               :exclusions [org.clojure/clojure]]{{/cider?}}{{#sass?}}
-                             [deraen/lein-sass "0.5.0"]{{/sass?}}]
+                             [lein-sass "0.5.0"]{{/sass?}}]
                    :injections [(require 'pjstadig.humane-test-output)
                                 (pjstadig.humane-test-output/activate!)]
                    :env {:dev true}}

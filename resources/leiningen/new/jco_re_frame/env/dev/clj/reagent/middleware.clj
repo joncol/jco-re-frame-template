@@ -1,8 +1,8 @@
 (ns {{name}}.middleware
   (:require [camel-snake-kebab.core :refer [->kebab-case-keyword]]
-            [prone.middleware :refer [wrap-json-body wrap-exceptions]]
+            [prone.middleware :refer [wrap-exceptions]]
             [ring.middleware.defaults :refer [site-defaults wrap-defaults]]
-            [ring.middleware.json :refer [wrap-json-response]]
+            [ring.middleware.json :refer [wrap-json-body wrap-json-response]]
             [ring.middleware.reload :refer [wrap-reload]]))
 
 (defn wrap-middleware [handler]
