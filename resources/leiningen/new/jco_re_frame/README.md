@@ -65,7 +65,6 @@ lein doo
 ```
 {{/test?}}
 {{#spec?}}
-
 To run [speclj](https://github.com/slagyr/speclj) tests, use:
 ```
 lein cljsbuild test
@@ -75,8 +74,8 @@ lein cljsbuild test
 
 For installation instructions of PhantomJS, please see
 [this](http://phantomjs.org/download.html).
-{{/test-or-spec?}}
 
+{{/test-or-spec?}}
 ## Building for Release
 
 ```

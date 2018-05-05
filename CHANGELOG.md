@@ -5,6 +5,7 @@ log follows the conventions of [keepachangelog.com](http://keepachangelog.com/).
 
 ## [Unreleased]
 ### Changed
+- Fix newlines in README.
 
 ## [0.1.5]
 ### Fixed
