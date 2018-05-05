@@ -5,7 +5,12 @@ log follows the conventions of [keepachangelog.com](http://keepachangelog.com/).
 
 ## [Unreleased]
 ### Changed
+
+## [0.1.5]
+### Fixed
 - Fix indentation in `subs.clj`.
+- Remove less support.
+- Make port parsing more robust.
 
 ## [0.1.4]
 ### Fixed
