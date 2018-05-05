@@ -3,7 +3,7 @@
 All notable changes to this project will be documented in this file. This change
 log follows the conventions of [keepachangelog.com](http://keepachangelog.com/).
 
-## [Unreleased]
+## [0.1.4]
 ### Changed
 - Make deployments work.
 - Add `clojure.tools.logging` and `log4j`.
