@@ -26,21 +26,13 @@ lein do clean, run
 The application will now be available at
 [http://localhost:3000](http://localhost:3000).
 
-{{#less-or-sass?}}
-### Style Compilation
-{{/less-or-sass?}}
-{{#less?}}
-To compile [less](https://github.com/Deraen/less4clj) sources and then watch for
-changes and recompile until interrupted, run:
-```
-lein less4j auto
-```
-{{/less?}}
 {{#sass?}}
-To compile [sass](https://github.com/Deraen/sass4clj) sources and then watch for
-changes and recompile until interrupted, run:
+### Style Compilation
+
+To compile [sass](https://github.com/tuhlmann/lein-sass) sources and then watch
+for changes and recompile until interrupted, run:
 ```
-lein sass4clj auto
+lein sass auto
 ```
 {{/sass?}}
 

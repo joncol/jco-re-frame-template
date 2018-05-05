@@ -6,13 +6,10 @@
 
 (def render (renderer "jco-re-frame"))
 
-(def valid-opts ["+cider" "+less" "+sass" "+spec" "+test" "+re-frame"])
+(def valid-opts ["+cider" "+sass" "+spec" "+test" "+re-frame"])
 
 (defn cider? [opts]
   (some #{"+cider"} opts))
-
-(defn less? [opts]
-  (some #{"+less"} opts))
 
 (defn sass? [opts]
   (some #{"+sass"} opts))
@@ -41,7 +38,6 @@
                               (str/join " " invalid-opts)
                               "\nSupported options: "
                               (str/join " " valid-opts))
-      (and (less? opts) (sass? opts)) (conflicting-opts-msg "+less" "+sass")
       (and (spec? opts) (test? opts)) (conflicting-opts-msg "+spec" "+test"))))
 
 (defn- template-data
@@ -50,9 +46,7 @@
    :project-ns      (sanitize-ns name)
    :sanitized       (name-to-path name)
    :cider?          (cider? opts)
-   :less?           (less? opts)
    :sass?           (sass? opts)
-   :less-or-sass?   (or (less? opts) (sass? opts))
    :spec?           (spec? opts)
    :test?           (test? opts)
    :spec-or-test?   (or (spec? opts) (test? opts))
@@ -86,12 +80,6 @@
                       ["spec/vendor/es5-sham.js" (render "vendor/es5-sham.js" data)]
                       ["spec/vendor/es5-shim.js" (render "vendor/es5-shim.js" data)]
                       ["runners/speclj" (render "runners/speclj" data)])
-                files)
-        files (if (less? opts)
-                (conj files
-                      ["src/less/site.main.less" (render "src/less/site.main.less" data)]
-                      ["src/less/profile.less" (render "src/less/profile.less" data)]
-                      )
                 files)
         files (if (sass? opts)
                 (conj files
