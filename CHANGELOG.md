@@ -3,9 +3,15 @@
 All notable changes to this project will be documented in this file. This change
 log follows the conventions of [keepachangelog.com](http://keepachangelog.com/).
 
-## [0.1.4]
+## [Unreleased]
 ### Changed
+- Fix indentation in `subs.clj`.
+
+## [0.1.4]
+### Fixed
 - Make deployments work.
+
+### Added
 - Add `clojure.tools.logging` and `log4j`.
 - Add `wrap-json-response` and `wrap-json-body` middlewares.
 - Add `camel-snake-kebab` library.
