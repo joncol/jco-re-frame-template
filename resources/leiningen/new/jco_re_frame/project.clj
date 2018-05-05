@@ -34,9 +34,6 @@
   :jvm-opts ["--add-modules" "java.xml.bind"]
   {{/java-version-9?}}
 
-  :source-paths ["src/clj" "src/cljc"]
-  :resource-paths ["resources" "target/cljsbuild"]
-
   :clean-targets ^{:protect false}
   ["resources/public/css/site.css"
    "resources/public/css/site.css.map"
