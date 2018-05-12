@@ -5,6 +5,12 @@ log follows the conventions of [keepachangelog.com](http://keepachangelog.com/).
 
 ## [Unreleased]
 ### Changed
+
+## [0.1.6]
+### Added
+- Add re-frame-10x support.
+
+### Fixed
 - Fix newlines in README.
 
 ## [0.1.5]

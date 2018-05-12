@@ -70,7 +70,9 @@
               :source-map           true
               :source-map-timestamp true
               :optimizations        :none
-              :pretty-print         true}}{{#test?}}
+              :pretty-print         true{{#10x?}}
+              :closure-defines      {"re_frame.trace.trace_enabled_QMARK_" true}
+              :preloads             [day8.re-frame-10x.preload]{{/10x?}}}}{{#test?}}
             :test
             {:source-paths ["src/cljs" "src/cljc" "test/cljs"]
              :compiler {:main          {{project-ns}}.doo-runner
@@ -110,16 +112,15 @@
                                   :nrepl-middleware
                                   [cemerick.piggieback/wrap-cljs-repl]}
                    :dependencies [[binaryage/devtools "0.9.10"]
-                                  [ring/ring-mock "0.3.2"]
-                                  [ring/ring-devel "1.6.3"]
-                                  [prone "1.5.2"]
+                                  [com.cemerick/piggieback "0.2.2"]{{#10x?}}
+                                  [day8.re-frame/re-frame-10x "0.3.3-react16"]{{/10x?}}
                                   [figwheel-sidecar "0.5.15"]
                                   [org.clojure/tools.nrepl "0.2.13"]
-                                  [com.cemerick/piggieback "0.2.2"]
-                                  {{#spec?}}
-                                  [speclj "3.3.2"]
-                                  {{/spec?}}
-                                  [pjstadig/humane-test-output "0.8.3"]]
+                                  [pjstadig/humane-test-output "0.8.3"]
+                                  [prone "1.5.2"]
+                                  [ring/ring-devel "1.6.3"]
+                                  [ring/ring-mock "0.3.2"]{{#spec?}}
+                                  [speclj "3.3.2"]{{/spec?}}]
                    :jvm-opts ["-Dloglevel=ALL"]
                    :source-paths ["env/dev/clj"]
                    :plugins [[lein-figwheel "0.5.15"]{{#test?}}

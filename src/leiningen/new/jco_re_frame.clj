@@ -6,7 +6,7 @@
 
 (def render (renderer "jco-re-frame"))
 
-(def valid-opts ["+cider" "+sass" "+spec" "+test" "+re-frame"])
+(def valid-opts ["+cider" "+sass" "+spec" "+test" "+re-frame" "+10x"])
 
 (defn cider? [opts]
   (some #{"+cider"} opts))
@@ -22,6 +22,9 @@
 
 (defn re-frame? [opts]
   (some #{"+re-frame"} opts))
+
+(defn ten-x? [opts]
+  (some #{"+10x"} opts))
 
 (defn java-version>=9? []
   (not (clojure.string/starts-with?
@@ -51,6 +54,7 @@
    :test?           (test? opts)
    :spec-or-test?   (or (spec? opts) (test? opts))
    :re-frame?       (re-frame? opts)
+   :10x?            (ten-x? opts)
    :java-version-9? (java-version>=9?)})
 
 (defn- template-files [data opts]
